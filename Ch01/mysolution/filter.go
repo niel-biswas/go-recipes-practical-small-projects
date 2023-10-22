@@ -74,7 +74,7 @@ func isPalindromeString(n any) bool {
 }
 
 func main() {
-	anyVals := []any{1, 2, 3, 4, 5, "madam", 6, 7, 8, "kayak", 45.25, 9, 10, 11, 12, 13, 123321, "NotPalindrome", 452345}
+	anyVals := []any{1, 2, 3, 4, 5, "madam", 6, 7, 8, "kayak", 45.25, 9, 10, 11, 13, 123321, "NotPalindrome", 452345}
 	fmt.Printf("Entered any values: %v\n", anyVals)
 	fmt.Printf("Filter(isOdd): %v\n", filter(isOdd, anyVals))
 	fmt.Printf("Filter(isEven): %v\n", filter(isEven, anyVals))
