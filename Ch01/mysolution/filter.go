@@ -34,7 +34,7 @@ func isEven(n any) bool {
 
 func NoApplicableFilter(n any) bool {
 	// check if any filter criteria is applicable to the input Type
-	if isOdd(n) == false && isEven(n) == false && isPrime(n) == false && isPalindromeString(n) == false {
+	if isOdd(n) == false && isEven(n) == false && isPrime(n) == false && isStringPalindrome(n) == false {
 		return true
 	}
 	return false
@@ -55,7 +55,7 @@ func isPrime(n any) bool {
 	return false
 }
 
-func isPalindromeString(n any) bool {
+func isStringPalindrome(n any) bool {
 	// check if the entered parameter is of String type
 	if reflect.TypeOf(n).String() == "string" {
 		inputSlice := fmt.Sprintf("%v", n)
@@ -79,6 +79,6 @@ func main() {
 	fmt.Printf("Filter(isOdd): %v\n", filter(isOdd, anyVals))
 	fmt.Printf("Filter(isEven): %v\n", filter(isEven, anyVals))
 	fmt.Printf("Filter(isPrime): %v\n", filter(isPrime, anyVals))
-	fmt.Printf("Filter(isPalindromeString): %v\n", filter(isPalindromeString, anyVals))
+	fmt.Printf("Filter(isStringPalindrome): %v\n", filter(isStringPalindrome, anyVals))
 	fmt.Printf("NoApplicableFilter: %v\n", filter(NoApplicableFilter, anyVals))
 }
