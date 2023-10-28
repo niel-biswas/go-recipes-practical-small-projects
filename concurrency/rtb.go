@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	main2 "go_recipes/concurrency"
 	"log"
 	"time"
 )
@@ -23,7 +24,7 @@ var (
 func bidOn(ctx context.Context, url string) Bid {
 	ch := make(chan Bid, 1)
 	go func() {
-		ch <- bestBid(url)
+		ch <- main2.bestBid(url)
 	}()
 
 	select {
