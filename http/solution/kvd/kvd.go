@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"sync"
@@ -27,7 +26,7 @@ func handleSet(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 	rdr := io.LimitReader(r.Body, maxSize)
-	data, err := ioutil.ReadAll(rdr)
+	data, err := io.ReadAll(rdr)
 	if err != nil {
 		log.Printf("read error: %s", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
