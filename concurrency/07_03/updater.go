@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	main2 "go_recipes/concurrency"
 	"log"
 	"sync"
 )
@@ -13,7 +12,7 @@ func updateAll(version string, hosts <-chan string) {
 		wg.Add(1)
 		go func(host, version string) {
 			defer wg.Done()
-			main2.update(host, version)
+			update(host, version)
 		}(host, version)
 	}
 
