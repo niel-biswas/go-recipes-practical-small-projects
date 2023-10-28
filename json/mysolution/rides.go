@@ -1,4 +1,4 @@
-// What is the maximal ride speed in rides.json and by which car?
+// What is the maximal ride speed in rides.json and by which car with total time taken (in hours) and distance (in kms)?
 package main
 
 import (
@@ -34,19 +34,21 @@ func NewRide(st, et, id string, dt float64) *ride {
 	return &r
 }
 
-func (r *ride) getSpeed(startTime, endTime time.Time) (float64, error) {
+func (r *ride) getSpeedHour(startTime, endTime time.Time) (float64, float64, error) {
 	dt := endTime.Sub(startTime)
 	dtHour := float64(dt) / float64(time.Hour)
 	if dtHour == 0 {
-		return 0, errors.New("Time cannot be zero for a given distance to calculate speed")
+		return 0, 0, errors.New("Time cannot be zero for a given distance to calculate speed")
 	}
 	speed := r.Distance / dtHour
-	return speed, nil
+	return speed, dtHour, nil
 }
 
-func maxRideSpeed(r io.Reader) (string, float64, error) {
+func maxRideSpeedHourDist(r io.Reader) (string, float64, float64, float64, error) {
 	var maxSpeedCarID string
 	var maxSpeed float64
+	var totalTime float64
+	var totalDistance float64
 	dec := json.NewDecoder(r)
 	for {
 		rideInfo := NewRide("", "", "", 0)
@@ -55,18 +57,20 @@ func maxRideSpeed(r io.Reader) (string, float64, error) {
 			break
 		}
 		if err != nil {
-			return "", 0, err
+			return "", 0, 0, 0, err
 		}
 		st, err := parseTime(rideInfo.StartTime)
 		et, err := parseTime(rideInfo.EndTime)
-		if Speed, err := rideInfo.getSpeed(st, et); err == nil {
+		if Speed, time2cover, err := rideInfo.getSpeedHour(st, et); err == nil {
 			if Speed > maxSpeed {
 				maxSpeed = Speed
 				maxSpeedCarID = rideInfo.ID
+				totalTime = time2cover
+				totalDistance = rideInfo.Distance
 			}
 		}
 	}
-	return maxSpeedCarID, maxSpeed, nil
+	return maxSpeedCarID, maxSpeed, totalTime, totalDistance, nil
 }
 
 func main() {
@@ -76,9 +80,9 @@ func main() {
 	}
 	defer file.Close()
 
-	id, speed, err := maxRideSpeed(file)
+	id, speed, time, dist, err := maxRideSpeedHourDist(file)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%s drives with a maximum speed of %f", id, speed)
+	fmt.Printf("%s drives with a maximum speed of %f covering a distance of %f km(s) in %f hour(s)", id, speed, dist, time)
 }
