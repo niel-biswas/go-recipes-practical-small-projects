@@ -22,6 +22,8 @@ func maxRideSpeed(r io.Reader) (float64, error) {
 		err := dec.Decode(&ride)
 		if err == io.EOF {
 			break
+		} else {
+			fmt.Println(ride)
 		}
 		if err != nil {
 			return 0, err

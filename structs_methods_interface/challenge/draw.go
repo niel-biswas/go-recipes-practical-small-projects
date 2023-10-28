@@ -1,5 +1,5 @@
 /*
-Implement a paining program. It should support
+Implement a painting program. It should support
 
 - Circle with location (x, y), color and radius
 - Rectangle with location (x, y), width, height and color
