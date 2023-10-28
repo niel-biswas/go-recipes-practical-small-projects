@@ -14,21 +14,21 @@ var (
 )
 
 // Metric is an application metric
-type Metric struct {
+type MetricN struct {
 	Time   time.Time `json:"time"`
 	Host   string    `json:"host"`
 	CPU    float64   `json:"cpu"`    // CPU load
 	Memory float64   `json:"memory"` // MB
 }
 
-func handleMetric(w http.ResponseWriter, r *http.Request) {
+func handleMetricN(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
 	defer r.Body.Close()
-	var m Metric
+	var m MetricN
 	const maxSize = 1 << 20 // MB
 	dec := json.NewDecoder(io.LimitReader(r.Body, maxSize))
 	if err := dec.Decode(&m); err != nil {
@@ -50,7 +50,7 @@ func handleMetric(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/metric", handleMetric)
+	http.HandleFunc("/metricN", handleMetricN)
 
 	addr := os.Getenv("ADDR")
 	if addr == "" {
