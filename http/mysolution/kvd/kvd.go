@@ -85,9 +85,9 @@ func handleDelete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["key"]
 
-	dbLock.RLock()         // acquiring read lock for db operation
-	defer dbLock.RUnlock() // ensuring read lock is released properly
-	data := db[key]
+	dbLock.Lock()         // acquiring read-write lock for db operation
+	defer dbLock.Unlock() // ensuring read-write lock is released properly
+	data := db[key]       // Fetching value for the given key
 	delete(db, key)
 	resp := map[string]interface{}{
 		"data": data,
