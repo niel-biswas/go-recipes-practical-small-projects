@@ -15,6 +15,7 @@ var (
 
 func handleSet(w http.ResponseWriter, r *http.Request) {
 	// FIXME
+
 }
 
 func handleGet(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,10 @@ func handleList(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	// FIXME: routing
+	// handle routing
+	r.HandleFunc("/kv/{key}", handleSet).Methods("POST")
+	r.HandleFunc("/kv/{key}", handleGet).Methods("GET")
+	r.HandleFunc("/kv", handleList).Methods("GET")
 	http.Handle("/", r)
 
 	addr := ":8080"
